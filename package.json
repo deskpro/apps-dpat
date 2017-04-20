@@ -1,6 +1,6 @@
 {
   "name": "dpat",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "deskpro apps tools",
   "main": "src/main/javascript/command/dpat.js",
   "bin": {
@@ -15,9 +15,10 @@
     "url": "git+https://github.com/DeskproApps/dpat.git"
   },
   "keywords": [
-    "deskpro"
+    "deskpro",
+    "deskpro tool"
   ],
-  "author": "deskpro",
+  "author": "DeskPRO Ltd.",
   "license": "BSD",
   "bugs": {
     "url": "https://github.com/DeskproApps/dpat/issues"
