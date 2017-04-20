@@ -1,0 +1,41 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "url": {
+      "type": "string"
+    },
+    "author": { "$ref": "#/definitions/author" },
+    "is_single": {
+      "type": "boolean"
+    },
+    "scope": {
+      "type": "string",
+      "enum": ["agent", "user"]
+    }
+  },
+  "required": [ "name", "url", "author", "is_single", "scope" ],
+  "definitions": {
+    "author" : {
+      "type": "object",
+      "properties": {
+        "name" : { "type" : "string" },
+        "email": { "type" : "string" },
+        "url": { "type" : "string" }
+      },
+      "required": [ "name", "email", "url" ]
+    },
+    "integerData" : {
+      "type": "integer",
+      "minimum" : 0
+    },
+    "stringData" : {
+      "type": "string"
+    }
+  }
+}
