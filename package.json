@@ -8,6 +8,7 @@
   },
   "scripts": {
     "prepare-release": "npm_bump",
+    "release": "NPM_TAG=$(git tag --list | grep ^v | sort --version-sort | tail -n 1 | tr --delete v); npm publish --tag ${NPM_TAG}",
     "dpat": "node src/main/javascript/command/dpat.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
