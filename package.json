@@ -1,5 +1,5 @@
 {
-  "name": "dpat",
+  "name": "@deskproapps/dpat",
   "version": "0.0.0",
   "description": "deskpro apps tools",
   "main": "src/main/javascript/command/dpat.js",
@@ -21,7 +21,7 @@
     "deskpro tool"
   ],
   "author": "DeskPRO Ltd.",
-  "license": "BSD",
+  "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/DeskproApps/dpat/issues"
   },
@@ -65,5 +65,6 @@
     "webpack-dev-server": "2.4.2",
     "webpack-manifest-plugin": "1.1.0",
     "write-file-webpack-plugin": "4.0.2"
-  }
+  },
+  "devDependencies": {}
 }
