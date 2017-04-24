@@ -1,6 +1,12 @@
 # dpat
 Deskpro Apps Tool
 
+## Installation
+
+It is best to install this package globally
+    
+    npm install -g @deskproapps/dpat
+
 ## Publishing a release
 
 This project is using semantic versioning.
@@ -9,13 +15,13 @@ First, make sure the release tools are installed:
 
     npm install -g release-tools
 
-Publishing a release is a two step process, involving first a prepare step, followed by a release step. The command for publishing a release is:
+Publishing a release is a two step process, involving first a release step, followed by a publish step. The command for publishing a release is:
     
-    npm run prepare-release -- <args>...; npm run release
+    npm run release -- <args>... ; npm publish --access public
     
-### Prepare release step
+### Create release step
 
-The prepare-release step executes the following sequence of actions (for now identical to that of npm_bump):   
+The release step creates a release and it executes the following sequence of actions (for now identical to that of npm_bump):   
 
 * Check the project contains a `CHANGELOG.md` file.
 * If there is a changelog, check if the changelog contains the needle `## Upcoming` and replace it with the new version and the current timestamp.
@@ -25,7 +31,7 @@ The prepare-release step executes the following sequence of actions (for now ide
 
 The arguments available to the prepare-release command are: 
 
-    npm run prepare-release -- <arguments>...
+    npm run release -- <arguments>...
     
     Arguments:
     --bugfix, -b         Bump the package to the next bugfix version.                                                                          
@@ -33,9 +39,9 @@ The arguments available to the prepare-release command are:
     --minor, -m          Bump the package to the next minor version.                                                                           
     --major, -M          Bump the package to the next major version.                                                                                 
     
-### Release step
+### Publish step
   
 The release step executes the following sequence of actions:
   
 * Sort the list of version tags (those starting with v) and pick the latest version.  
-* Run `npm publish --tag <latest version>`  
+* Run `npm publish --access public`  
