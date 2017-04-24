@@ -5,10 +5,7 @@ const path = require("path");
 const shelljs = require('shelljs');
 const spawn = require('child_process').spawn;
 const spawnSync = require('child_process').spawnSync;
-
-
-// const ncp = require("ncp").ncp;
-// ncp.limit = 16;
+const archiver = require("archiver");
 
 const Validator = require("jsonschema").Validator;
 
@@ -149,31 +146,116 @@ class DeskproProject
       }
     }
 
-    /**
-     * Starts a development server serving from <path> if path is a valid app project directory
-     *
-     * @param {String} projectRoot
-     * @returns {boolean}
-     */
-    startDevServer(projectRoot)
+  /**
+   * @param {String} projectRoot
+   * @param {String} packageFilename
+   * @return {String} the full path to the created artifact
+   */
+    runPackage (projectRoot, packageFilename)
     {
-        const absoluteProjectRoot = path.resolve(projectRoot);
-        if (! this.validateProjectDirectory(absoluteProjectRoot)) {
-            return false;
-        }
+      const projectDistDir = path.join(projectRoot, 'dist');
+      const output = fs.createWriteStream(path.join(projectDistDir, packageFilename));
+      const archive = archiver('zip', {
+        store: true // Sets the compression method to STORE.
+      });
 
-        const devServer = spawn(
-            './node_modules/.bin/webpack-dev-server'
-            , ['--config', 'src/webpack/webpack.config-development.js']
-            , { cwd: absoluteProjectRoot, stdio: 'inherit' }
-        );
+      archive.directory(path.join(projectDistDir, 'assets'), 'assets', {});
+      archive.directory(path.join(projectDistDir, 'html'), 'html', {});
+      archive.file(path.join(projectRoot, 'manifest.json'), { name: 'manifest.json' });
 
-        devServer.on('exit', (code) => {
-            console.log(`dpat server exited with code ${code}`);
-        });
+      archive.pipe(output);
+      archive.finalize();
 
-        return true;
+      return path.join(projectRoot, 'dist', packageFilename);
     }
+
+  runPrepareCompile(projectDir)
+  {
+    const distFolder = path.resolve(projectDir, "dist");
+    if (fs.existsSync(distFolder)) {
+      try {
+        shelljs.rm('-rf', distFolder + '/*');
+        return true;
+      } catch (e) {
+        console.log(
+          `failed to empty dist folder ${distFolder}.
+             
+             Run the following commands manually:
+              rm -rf ${distFolder}`
+        );
+        return false;
+      }
+    }
+
+    try {
+      shelljs.mkdir('-p', distFolder);
+      return true;
+    } catch (e) {
+      console.log(
+        `failed to create dist folder ${distFolder}.
+             
+             Run the following commands manually:
+              mkdir -p ${distFolder}`
+      );
+      return false;
+    }
+  }
+
+  runCompile (projectRoot, webpackConfig)
+  {
+    const devServer = spawnSync(
+      './node_modules/.bin/webpack'
+      , ['--config', webpackConfig, '--env.DP_PROJECT_ROOT', projectRoot]
+      , { cwd: projectRoot, stdio: 'inherit', env: { DP_PROJECT_ROOT: projectRoot } }
+    );
+    // TODO handle failure
+
+    return true;
+  }
+
+  /**
+   * @param {String} packagePath
+   * @param {DeskproApiClient} authenticatedClient
+   * @return {Promise.<TResult>}
+   */
+  runDeploy (packagePath, authenticatedClient)
+  {
+    const packageBuffer = fs.readFileSync(packagePath, { flag: 'r' });
+
+    return authenticatedClient.apps(packageBuffer)
+      .then(function (result) {
+        return result;
+      })
+      .catch(function (result) {
+        throw new Error('failed to deploy');
+      });
+  }
+
+  /**
+   * Starts a development server serving from <path> if path is a valid app project directory
+   *
+   * @param {String} projectRoot
+   * @returns {boolean}
+   */
+  startDevServer(projectRoot)
+  {
+      const absoluteProjectRoot = path.resolve(projectRoot);
+      if (! this.validateProjectDirectory(absoluteProjectRoot)) {
+          return false;
+      }
+
+      const devServer = spawn(
+          './node_modules/.bin/webpack-dev-server'
+          , ['--config', 'src/webpack/webpack.config-development.js']
+          , { cwd: absoluteProjectRoot, stdio: 'inherit' }
+      );
+
+      devServer.on('exit', (code) => {
+          console.log(`dpat server exited with code ${code}`);
+      });
+
+      return true;
+  }
 }
 
 module.exports = DeskproProject;
