@@ -1,4 +1,4 @@
-## Upcoming
+## v0.2.0 - 2017-04-24
 
 * Add package and deploy commands
 
