@@ -10,7 +10,7 @@ module.exports = function (env) {
   const ASSET_PATH = 'assets';
 
   const artifactName = require('./BuildUtils').artifactName(PROJECT_ROOT_PATH);
-  const copyWebpackPlugin = require('./CopyAssets').copyWebpackPlugin(PROJECT_ROOT_PATH)('dist');
+  const copyWebpackPlugin = require('./CopyAssets').copyWebpackPlugin(PROJECT_ROOT_PATH)('target');
   const extractCssPlugin = new ExtractTextPlugin({
     filename: '[name].css',
     publicPath: `/${ASSET_PATH}/`,
@@ -72,8 +72,7 @@ module.exports = function (env) {
       new webpack.NamedModulesPlugin(),
       copyWebpackPlugin,
       new WriteFilePlugin({
-        // Write only files that have ".css" extension.
-        test: /\html\/|assets\/|dists\//,
+        test: /\html\/|assets\/|dists\/|manifest\.json/,
         useHashIndex: false
       }),
 
