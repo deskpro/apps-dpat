@@ -2,14 +2,17 @@
 
 const program = require("commander");
 const project = require("../project").newInstance();
-
+const __path = require("path");
+const defaultWebpackConfig = require.resolve('../webpack/webpack.config-development');
 /**
  * @param {String} path
  * @param {Command} cmd
  */
 function action(path, port, cmd)
 {
-    if (! project.startDevServer(path)) {
+    const projectDir = __path.resolve(path);
+
+    if (! project.startDevServer(projectDir, defaultWebpackConfig)) {
         console.error(`could not start dev server at ${path}`);
         process.exit(1);
     }

@@ -238,19 +238,25 @@ class DeskproProject
    * Starts a development server serving from <path> if path is a valid app project directory
    *
    * @param {String} projectRoot
+   * @param {String} defaultWebpackConfig
    * @returns {boolean}
    */
-  startDevServer(projectRoot)
+  startDevServer(projectRoot, defaultWebpackConfig)
   {
-      const absoluteProjectRoot = path.resolve(projectRoot);
-      if (! this.validateProjectDirectory(absoluteProjectRoot)) {
+      if (! this.validateProjectDirectory(projectRoot)) {
           return false;
       }
 
+    const projectLocalConfig = path.resolve(projectRoot, "src", "webpack", "webpack.config-development.js");
+    const webpackConfig = fs.existsSync(projectLocalConfig) ? projectLocalConfig : defaultWebpackConfig;
+
       const devServer = spawn(
           './node_modules/.bin/webpack-dev-server'
-          , ['--config', 'src/webpack/webpack.config-development.js']
-          , { cwd: absoluteProjectRoot, stdio: 'inherit' }
+          , [
+              '--config', webpackConfig,
+              '--env.DP_PROJECT_ROOT', projectRoot
+          ]
+          , { cwd: projectRoot, stdio: 'inherit' }
       );
 
       devServer.on('exit', (code) => {
