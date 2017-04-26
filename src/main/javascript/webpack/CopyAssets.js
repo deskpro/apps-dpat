@@ -61,6 +61,11 @@ function getCopyPatterns(destination, projectRoot)
       force: true
     },
     {
+      from: path.resolve(projectRoot, 'src', 'main', 'docs', 'README.md'),
+      to: path.join(projectRoot, destination, 'README.md'),
+      force: true
+    },
+    {
       from: path.resolve(projectRoot, 'manifest.json'),
       to: path.join(projectRoot, destination, 'manifest.json'),
       force: true
