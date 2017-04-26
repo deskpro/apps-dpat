@@ -201,8 +201,11 @@ class DeskproProject
     }
   }
 
-  runCompile (projectRoot, webpackConfig)
+  runCompile (projectRoot, defaultWebpackConfig)
   {
+    const projectLocalConfig = path.resolve(projectRoot, "src", "webpack", "webpack.config-distribution.js");
+    const webpackConfig = fs.existsSync(projectLocalConfig) ? projectLocalConfig : defaultWebpackConfig;
+
     const devServer = spawnSync(
       './node_modules/.bin/webpack'
       , ['--config', webpackConfig, '--env.DP_PROJECT_ROOT', projectRoot]

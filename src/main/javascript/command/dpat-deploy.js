@@ -5,7 +5,7 @@ const archiver = require("archiver");
 const fs = require("fs");
 
 const AsyncAction = require('../../../commander/AsyncAction');
-const webpackConfig = require.resolve('../webpack/webpack.config-distribution');
+const defaultWebpackConfig = require.resolve('../webpack/webpack.config-distribution');
 const __path = require("path");
 
 const project = require("../project");
@@ -45,7 +45,7 @@ function action(path, instance, cmd, done)
     process.exit(1);
   }
 
-  if (! dpProject.runCompile(projectDir, webpackConfig)) {
+  if (! dpProject.runCompile(projectDir, defaultWebpackConfig)) {
     console.log('failed to compile');
     process.exit(1);
   }

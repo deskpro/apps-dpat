@@ -4,7 +4,7 @@ const program = require("commander");
 const archiver = require("archiver");
 const fs = require("fs");
 
-const webpackConfig = require.resolve('../webpack/webpack.config-distribution');
+const defaultWebpackConfig = require.resolve('../webpack/webpack.config-distribution');
 const __path = require("path");
 const project = require("../project");
 const packageFilename = 'app.zip';
@@ -30,7 +30,7 @@ function action(path, cmd)
     process.exit(1);
   }
 
-  if (! dpProject.runCompile(projectDir, webpackConfig)) {
+  if (! dpProject.runCompile(projectDir, defaultWebpackConfig)) {
     process.exit(1);
   }
 
