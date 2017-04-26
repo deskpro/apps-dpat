@@ -1,6 +1,6 @@
 ## Upcoming
 
-* Allow projects to define their own webpack configuration for bundling the distribution
+* Allow projects to override the webpack configuration for distribution and development
 
 ## v0.2.0 - 2017-04-24
 
