@@ -26,7 +26,12 @@ module.exports = function (env) {
       historyApiFallback: true,
       port: 31080,
       publicPath: ['/', ASSET_PATH, '/'].join(''),
-      watchContentBase: true
+      watchContentBase: true,
+      headers : {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, CONNECT, OPTIONS, TRACE',
+        'Access-Control-Allow-Headers': 'Origin, X-Agent-Request'
+      }
     },
     externals: {
       'react': 'React',
