@@ -1,4 +1,4 @@
-## Upcoming
+## v0.2.1 - 2017-04-27
 
 * Allow projects to override the webpack configuration for distribution and development
 * Enable CORS for development server
