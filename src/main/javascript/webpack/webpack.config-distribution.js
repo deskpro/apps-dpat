@@ -11,7 +11,6 @@ module.exports = function (env) {
   const ASSET_PATH = 'assets';
   const PRODUCTION = !env.NODE_ENV || env.NODE_ENV === 'production';
 
-  const artifactName = require('./BuildUtils').artifactName(PROJECT_ROOT_PATH);
   const copyWebpackPlugin = require('./CopyAssets').copyWebpackPlugin(PROJECT_ROOT_PATH)('dist');
   const extractCssPlugin = new ExtractTextPlugin({ filename: '[name].css', publicPath: `/${ASSET_PATH}/`, allChunks: true });
 
@@ -20,12 +19,12 @@ module.exports = function (env) {
     devtool: 'source-map',
     entry: {
         main: [ path.resolve(PROJECT_ROOT_PATH, 'src/webpack/entrypoint.js') ],
-        vendor: ['semantic-ui-react', 'superagent', 'superagent-promise', 'error-wrapper']
+        vendor: ['semantic-ui-react']
     },
     externals: {
       'react': 'React',
       'react-dom': 'ReactDOM',
-      'deskproapps-sdk-react': 'DeskproAppsSDKReact'
+      '@deskproapps/deskproapps-sdk-react': 'DeskproAppsSDKReact'
     },
     module: {
       loaders: [
@@ -49,8 +48,8 @@ module.exports = function (env) {
     },
     output: {
       pathinfo: !PRODUCTION,
-      chunkFilename: artifactName('[name].js'),
-      filename: artifactName('[name].js'),
+      chunkFilename: '[name].js',
+      filename: '[name].js',
       path: path.resolve(PROJECT_ROOT_PATH, 'dist', ASSET_PATH)
 
       //publicPath: `/${ASSET_PATH}/`
@@ -67,9 +66,9 @@ module.exports = function (env) {
       // vendor libs + extracted manifest
       new webpack.optimize.CommonsChunkPlugin({ name: ['vendor', 'manifest'], minChunks: Infinity }),
       // export map of chunks that will be loaded by the extracted manifest
-      new ChunkManifestPlugin({ filename: artifactName('manifest.json'), manifestVariable: 'webpackManifest' }),
+      new ChunkManifestPlugin({ filename: 'manifest.json', manifestVariable: 'webpackManifest' }),
       // mapping of all source file names to their corresponding output file
-      new ManifestPlugin({ fileName: artifactName('asset-manifest.json') }),
+      new ManifestPlugin({ fileName: 'asset-manifest.json' }),
 
       copyWebpackPlugin
     ],

@@ -77,7 +77,7 @@ function getCopyPatterns(destination, projectRoot)
   if (destination == 'target') {
     patternsForTarget = [
       {
-        from: path.resolve(projectRoot, 'node_modules', 'deskproapps-sdk-react', 'dist', 'deskproapps-sdk-react.js'),
+        from: path.resolve(projectRoot, 'node_modules', '@deskproapps', 'deskproapps-sdk-react', 'dist', 'deskproapps-sdk-react.js'),
         to: path.join(projectRoot, 'target', 'assets', 'deskproapps-sdk-react.js'),
         force: true
       },

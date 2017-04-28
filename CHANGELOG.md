@@ -1,3 +1,8 @@
+## Upcoming
+
+* [FIX] Resolving deskpro react sdk in webpack configuration is using wrong file paths
+* [FEATURE] Distribution assets use standard file names
+
 ## v0.2.1 - 2017-04-27
 
 * Allow projects to override the webpack configuration for distribution and development

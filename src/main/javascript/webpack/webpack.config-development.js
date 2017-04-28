@@ -36,7 +36,7 @@ module.exports = function (env) {
     externals: {
       'react': 'React',
       'react-dom': 'ReactDOM',
-      'deskproapps-sdk-react': 'DeskproAppsSDKReact'
+      '@deskproapps/deskproapps-sdk-react': 'DeskproAppsSDKReact'
     },
     devtool: 'inline-source-map',
     entry: {
@@ -44,7 +44,7 @@ module.exports = function (env) {
         `webpack-dev-server/client?http://localhost:31080`,
         path.resolve(PROJECT_ROOT_PATH, 'src/webpack/entrypoint.js')
       ],
-      vendor: ['react', 'react-dom', 'semantic-ui-react', 'deskproapps-sdk-react']
+      vendor: ['react', 'react-dom', 'semantic-ui-react', '@deskproapps/deskproapps-sdk-react']
     },
     module: {
       loaders: [
@@ -65,8 +65,8 @@ module.exports = function (env) {
       ],
     },
     output: {
-      chunkFilename: `${ASSET_PATH}/${artifactName('[name].js')}`,
-      filename: artifactName('[name].js'),
+      chunkFilename: `${ASSET_PATH}/[name].js`,
+      filename: '[name].js',
       path: path.resolve(PROJECT_ROOT_PATH, 'target'),
       publicPath: ['/', ASSET_PATH, '/'].join('')
     },
