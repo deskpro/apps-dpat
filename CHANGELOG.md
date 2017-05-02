@@ -1,3 +1,7 @@
+## Upcoming
+
+* [FIX] Use published version of deskproapps-sdk-react
+
 ## v0.2.2 - 2017-04-28
 
 * [FIX] Resolving deskpro react sdk in webpack configuration is using wrong file paths

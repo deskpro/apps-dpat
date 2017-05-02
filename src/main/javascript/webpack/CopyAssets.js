@@ -19,8 +19,8 @@ function createTransformHtml(destination) {
       replacement: destination == 'dist' ? '//unpkg.com/react-dom@15.5.3/dist/react-dom.min.js' : '../assets/react-dom.js'
     },
     {
-      pattern: '(https?:)?//unpkg.com/deskproapps-sdk-react/dist/deskproapps-sdk-react.min.js'.replace('.', '\.'),
-      replacement: destination == 'dist' ? '../assets/deskproapps-sdk-react.js' : '../assets/deskproapps-sdk-react.js'
+      pattern: '(https?:)?//unpkg.com/@deskproapps/deskproapps-sdk-react/dist/deskproapps-sdk-react.min.js'.replace('.', '\.'),
+      replacement: destination == 'dist' ? '//unpkg.com/@deskproapps/deskproapps-sdk-react@0.1.4/dist/deskproapps-sdk-react.js' : '../assets/deskproapps-sdk-react.js'
     }
   ];
 
