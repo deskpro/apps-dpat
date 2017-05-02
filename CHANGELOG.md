@@ -1,4 +1,4 @@
-## Upcoming
+## v0.2.3 - 2017-05-02
 
 * [FIX] Use published version of deskproapps-sdk-react
 
