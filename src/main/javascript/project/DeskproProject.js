@@ -105,12 +105,12 @@ class DeskproProject
           shelljs.mkdir('-p', destination);
         }
       } catch (e) {
-        console.log(`failed to create project dir: ${absoluteDestination}`);
+        console.error(`failed to create project dir: ${absoluteDestination}`);
         return;
       }
 
-      if (shelljs.exec(`git clone ${sourceRepository} ${absoluteDestination}`, { cwd: absoluteDestination, stdio: 'inherit' }).code !== 0) {
-        console.log(`failed to initialize project in ${absoluteDestination}`);
+      if (shelljs.error(`git clone ${sourceRepository} ${absoluteDestination}`, { cwd: absoluteDestination, stdio: 'inherit' }).code !== 0) {
+        console.error(`failed to initialize project in ${absoluteDestination}`);
         return;
       }
 
@@ -118,7 +118,7 @@ class DeskproProject
       try {
         shelljs.rm('-rf', gitDir);
       } catch (e) {
-        console.log(
+        console.error(
           `failed to initialize a new git repository in ${absoluteDestination}.
            
            Run the following commands manually:
@@ -128,7 +128,7 @@ class DeskproProject
       }
 
       if (shelljs.exec(`git init ${absoluteDestination}`, { cwd: absoluteDestination, stdio: 'inherit' }).code !== 0) {
-        console.log(
+        console.error(
           `failed to initialize a new git repository in ${absoluteDestination}.
            
            Run the following command manually: 
@@ -137,7 +137,7 @@ class DeskproProject
       }
 
       if (shelljs.exec(`npm install --save-exact`, { cwd: absoluteDestination, stdio: 'inherit' }).code !== 0) {
-        console.log(
+        console.error(
           `failed to install dependencies in ${absoluteDestination}.
            
            Run the following command manually: 
@@ -171,13 +171,18 @@ class DeskproProject
 
   runPrepareCompile(projectDir)
   {
+    const nodeModulesFolder = path.join(projectDir, "node_modules");
+    if (! fs.existsSync(nodeModulesFolder)) {
+      console.error(`node_modules folder not found in ${projectDir} . Make sure you run npm install`)
+    }
+
     const distFolder = path.resolve(projectDir, "dist");
     if (fs.existsSync(distFolder)) {
       try {
         shelljs.rm('-rf', distFolder + '/*');
         return true;
       } catch (e) {
-        console.log(
+        console.error(
           `failed to empty dist folder ${distFolder}.
              
              Run the following commands manually:
@@ -191,7 +196,7 @@ class DeskproProject
       shelljs.mkdir('-p', distFolder);
       return true;
     } catch (e) {
-      console.log(
+      console.error(
         `failed to create dist folder ${distFolder}.
              
              Run the following commands manually:
@@ -211,9 +216,12 @@ class DeskproProject
       , ['--config', webpackConfig, '--env.DP_PROJECT_ROOT', projectRoot]
       , { cwd: projectRoot, stdio: 'inherit', env: { DP_PROJECT_ROOT: projectRoot } }
     );
-    // TODO handle failure
 
-    return true;
+    if (devServer.status === 0) {
+      return true;
+    }
+    console.error(devServer.error);
+    return false;
   }
 
   /**

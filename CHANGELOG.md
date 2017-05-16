@@ -1,3 +1,9 @@
+## Upcoming
+
+* [FIX] Fail packaging, compiling and deploying with a descriptive error if node_modules folder is missing
+* [FEATURE] Add `dpat compile` command
+
+
 ## v0.2.3 - 2017-05-02
 
 * [FIX] Use published version of deskproapps-sdk-react
