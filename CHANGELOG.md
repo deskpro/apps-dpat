@@ -1,3 +1,7 @@
+## Upcoming
+
+* [FIX] fix app manifest validation
+
 ## v0.3.0 - 2017-05-16
 
 * [FIX] Fail packaging, compiling and deploying with a descriptive error if node_modules folder is missing
