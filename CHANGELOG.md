@@ -1,4 +1,4 @@
-## Upcoming
+## v0.4.0 - 2017-05-22
 
 * [FIX] fix app manifest validation
 
