@@ -1,6 +1,6 @@
 {
   "name": "@deskproapps/dpat",
-  "version": "0.4.0",
+  "version": "0.3.1",
   "dependencies": {
     "abbrev": {
       "version": "1.1.0",
@@ -291,6 +291,11 @@
       "version": "1.0.1",
       "from": "babel-plugin-import-rename@1.0.1",
       "resolved": "https://registry.npmjs.org/babel-plugin-import-rename/-/babel-plugin-import-rename-1.0.1.tgz"
+    },
+    "babel-plugin-lodash": {
+      "version": "3.2.11",
+      "from": "babel-plugin-lodash@latest",
+      "resolved": "https://registry.npmjs.org/babel-plugin-lodash/-/babel-plugin-lodash-3.2.11.tgz"
     },
     "babel-plugin-react-transform": {
       "version": "2.0.2",

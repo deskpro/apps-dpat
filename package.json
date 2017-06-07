@@ -4,7 +4,9 @@
   "description": "deskpro apps tools",
   "main": "src/main/javascript/command/dpat.js",
   "bin": {
-    "dpat": "./src/main/javascript/command/dpat.js"
+    "dpat": "./src/main/javascript/command/dpat.js",
+    "dpat-webpack": "./node_modules/.bin/webpack",
+    "dpat-webpack-dev-server": "./node_modules/.bin/webpack-dev-server"
   },
   "scripts": {
     "release": "npm_bump",
@@ -30,6 +32,7 @@
     "babel-cli": "6.24.1",
     "babel-loader": "6.4.1",
     "babel-plugin-import-rename": "1.0.1",
+    "babel-plugin-lodash": "3.2.11",
     "babel-plugin-react-transform": "2.0.2",
     "babel-plugin-transform-class-properties": "6.24.1",
     "babel-plugin-transform-decorators-legacy": "1.3.4",

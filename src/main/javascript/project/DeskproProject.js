@@ -11,13 +11,15 @@ const Validator = require("jsonschema").Validator;
 
 class DeskproProject
 {
-    /**
-     * @param {Object} manifestSchema
-     * @param {String} source
-     */
-    constructor(manifestSchema, source) {
+  /**
+   * @param {Object} manifestSchema
+   * @param {String} source
+   * @param {String} binPath
+   */
+    constructor(manifestSchema, source, binPath) {
         this.manifestSchema = manifestSchema;
         this.source = source;
+        this.binPath = binPath;
     }
 
     /**
@@ -109,7 +111,8 @@ class DeskproProject
         return;
       }
 
-      if (shelljs.error(`git clone ${sourceRepository} ${absoluteDestination}`, { cwd: absoluteDestination, stdio: 'inherit' }).code !== 0) {
+      const result = shelljs.exec(`git clone ${sourceRepository} ${absoluteDestination}`, { cwd: absoluteDestination, stdio: 'inherit' });
+      if (result.stderr) {
         console.error(`failed to initialize project in ${absoluteDestination}`);
         return;
       }
@@ -204,9 +207,9 @@ Run the following commands manually: mkdir -p ${distFolder}
     const webpackConfig = fs.existsSync(projectLocalConfig) ? projectLocalConfig : defaultWebpackConfig;
 
     const devServer = spawnSync(
-      './node_modules/.bin/webpack'
+      'webpack'
       , ['--config', webpackConfig, '--env.DP_PROJECT_ROOT', projectRoot]
-      , { cwd: projectRoot, stdio: 'inherit', env: { DP_PROJECT_ROOT: projectRoot } }
+      , { cwd: projectRoot, stdio: 'inherit', env: { DP_PROJECT_ROOT: projectRoot, NODE_PATH: process.env.NODE_PATH } }
     );
 
     if (devServer.status === 0) {
@@ -230,6 +233,7 @@ Run the following commands manually: mkdir -p ${distFolder}
         return result;
       })
       .catch(function (result) {
+        console.log(result);
         throw new Error('failed to deploy');
       });
   }
@@ -251,12 +255,12 @@ Run the following commands manually: mkdir -p ${distFolder}
     const webpackConfig = fs.existsSync(projectLocalConfig) ? projectLocalConfig : defaultWebpackConfig;
 
       const devServer = spawn(
-          './node_modules/.bin/webpack-dev-server'
+          path.join('webpack-dev-server')
           , [
               '--config', webpackConfig,
               '--env.DP_PROJECT_ROOT', projectRoot
           ]
-          , { cwd: projectRoot, stdio: 'inherit' }
+          , { cwd: projectRoot, stdio: 'inherit', env: { DP_PROJECT_ROOT: projectRoot, NODE_PATH: process.env.NODE_PATH } }
       );
 
       devServer.on('exit', (code) => {

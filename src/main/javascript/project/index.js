@@ -6,14 +6,15 @@ const DeskproProject = require('./DeskproProject');
 const DeskproApiClient = require('./DeskproApiClient');
 
 const source = path.resolve(__dirname, "../../resources/scaffold");
+const binPath = path.resolve(__dirname, "../../../../node_modules/.bin");
 
-exports = module.exports = {
-
+exports = module.exports =
+{
     /**
      * @returns {DeskproProject}
      */
     newInstance: function () {
-        return new DeskproProject(manifestSchema, source);
+        return new DeskproProject(manifestSchema, source, binPath);
     },
     /**
      * @param {String} dpInstanceUrl

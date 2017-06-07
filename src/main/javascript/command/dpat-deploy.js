@@ -73,7 +73,7 @@ function action(path, instance, cmd, done)
     done();
   })
   .catch(function(e) {
-    console.log('failed to deploy');
+    console.log(e, 'failed to deploy');
     process.exit(1);
     done();
   })
