@@ -1,4 +1,4 @@
-## Upcoming
+## v0.3.2 - 2017-06-12
 
 * [FEATURE] Add more build commands
 * [MAINTENANCE] Add more webpack plugins
