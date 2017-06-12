@@ -1,3 +1,8 @@
+## Upcoming
+
+* [FEATURE] Add more build commands
+* [MAINTENANCE] Add more webpack plugins
+
 ## v0.3.1 - 2017-05-22
 
 * [FIX] fix app manifest validation

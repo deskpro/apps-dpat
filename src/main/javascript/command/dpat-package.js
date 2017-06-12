@@ -6,7 +6,7 @@ const fs = require("fs");
 
 const defaultWebpackConfig = require.resolve('../webpack/webpack.config-distribution');
 const __path = require("path");
-const project = require("../project");
+const project = require("../Project");
 const packageFilename = 'app.zip';
 
 /**
@@ -24,16 +24,6 @@ function action(path, cmd)
 
   const dpProject = project.newInstance();
 
-  // TODO verify project dir is a valid dp apps project
-  // TODO handle failure
-  if (! dpProject.runPrepareCompile(projectDir)) {
-    process.exit(1);
-  }
-
-  if (! dpProject.runCompile(projectDir, defaultWebpackConfig)) {
-    process.exit(1);
-  }
-
   let packagePath;
   try {
     packagePath = dpProject.runPackage(projectDir, packageFilename);
@@ -42,7 +32,7 @@ function action(path, cmd)
     process.exit(1);
   }
 
-  console.log('Project successfully packaged: ' + packagePath);
+  console.log(`Project successfully packaged: ${packagePath}`);
 }
 
 program

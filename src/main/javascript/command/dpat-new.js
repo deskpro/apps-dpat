@@ -3,7 +3,7 @@
 const program = require('commander');
 const fs = require('fs');
 
-const project = require('../project').newInstance();
+const project = require('../Project').newInstance();
 const config = require('../../resources/configuration.json');
 
 function action(path, cmd) {

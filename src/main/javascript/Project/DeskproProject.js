@@ -44,19 +44,6 @@ class DeskproProject
             return false;
         }
 
-        //verify target files
-        let rootDir = path.parse(manifestPath).dir;
-        const targetFiles = [];
-        for (let key of Object.keys(manifest.targets)) {
-            targetFiles.push( path.resolve(rootDir, manifest.targets[key].url) );
-        }
-
-        for (let file of targetFiles) {
-            if (!fs.existsSync(file)) {
-                return false;
-            }
-        }
-
         return true;
     }
 

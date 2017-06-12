@@ -1,7 +1,7 @@
 "use strict";
 
 const program = require("commander");
-const project = require("../project").newInstance();
+const project = require("../Project").newInstance();
 const __path = require("path");
 const defaultWebpackConfig = require.resolve('../webpack/webpack.config-development');
 /**

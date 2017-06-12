@@ -2,7 +2,7 @@
 
 const fs = require("fs");
 const program = require("commander");
-const project = require("../project").newInstance();
+const project = require("../Project").newInstance();
 
 function action(manifest)
 {

@@ -1,7 +1,7 @@
 "use strict";
 
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
+const CopyWebpackPlugin = require('@deskproapps/dpat/node_modules/copy-webpack-plugin');
 
 /**
  * @param {String} destination
@@ -17,10 +17,6 @@ function createTransformHtml(destination) {
     {
       pattern: '(https?:)?//unpkg.com/react-dom/dist/react-dom.min.js'.replace('.', '\.'),
       replacement: destination == 'dist' ? '//unpkg.com/react-dom@15.5.3/dist/react-dom.min.js' : '../assets/react-dom.js'
-    },
-    {
-      pattern: '(https?:)?//unpkg.com/@deskproapps/deskproapps-sdk-react/dist/deskproapps-sdk-react.min.js'.replace('.', '\.'),
-      replacement: destination == 'dist' ? '//unpkg.com/@deskproapps/deskproapps-sdk-react@1.0.0-alpha/dist/deskproapps-sdk-react.js' : '../assets/deskproapps-sdk-react.js'
     }
   ];
 
@@ -42,11 +38,9 @@ function createTransformHtml(destination) {
 /**
  * @return {[*,*]}
  */
-function getCopyPatterns(destination, projectRoot)
+function getStaticAssetCopyPatterns(destination, projectRoot)
 {
-  if (-1 === ['dist','target'].indexOf(destination)) {
-    throw new Error('destination must one of: dist, target');
-  }
+
   // patterns for copying static files from the app's source
   const patterns = [
     {
@@ -67,28 +61,28 @@ function getCopyPatterns(destination, projectRoot)
     },
     {
       from: path.resolve(projectRoot, 'manifest.json'),
-      to: path.join(projectRoot, destination, 'manifest.json'),
+      to: path.join(projectRoot, destination == 'dist' ? destination : 'target', 'manifest.json'),
       force: true
     }
   ];
 
   // patterns for copying distribution files for dev
   let patternsForTarget = [];
-  if (destination == 'target') {
+  if (destination != 'dist') {
     patternsForTarget = [
       {
         from: path.resolve(projectRoot, 'node_modules', '@deskproapps', 'deskproapps-sdk-react', 'dist', 'deskproapps-sdk-react.js'),
-        to: path.join(projectRoot, 'target', 'assets', 'deskproapps-sdk-react.js'),
+        to: path.join(projectRoot, destination, 'assets', 'deskproapps-sdk-react.js'),
         force: true
       },
       {
         from: path.resolve(projectRoot, 'node_modules', 'react', 'dist', 'react.js'),
-        to: path.join(projectRoot, 'target', 'assets', 'react.js'),
+        to: path.join(projectRoot, destination, 'assets', 'react.js'),
         force: true
       },
       {
         from: path.resolve(projectRoot, 'node_modules', 'react-dom', 'dist', 'react-dom.js'),
-        to: path.join(projectRoot, 'target', 'assets', 'react-dom.js'),
+        to: path.join(projectRoot, destination, 'assets', 'react-dom.js'),
         force: true
       }
     ];
@@ -105,7 +99,7 @@ function createPlugin(copyPatterns)
 {
     let commands;
     if (typeof copyPatterns === 'string') {
-      commands = getCopyPatterns(copyPatterns);
+      commands = getStaticAssetCopyPatterns(copyPatterns);
     } else if (copyPatterns instanceof Array && copyPatterns.length) {
         commands = copyPatterns;
     } else {
@@ -117,10 +111,10 @@ function createPlugin(copyPatterns)
 }
 
 module.exports = {
-    getCopyCommands: getCopyPatterns,
+    getCopyCommands: getStaticAssetCopyPatterns,
     copyWebpackPlugin: function (projectDir) {
       return function (destination) {
-        const copyPatterns = getCopyPatterns(destination, projectDir);
+        const copyPatterns = getStaticAssetCopyPatterns(destination, projectDir);
         return createPlugin(copyPatterns);
       }
     }

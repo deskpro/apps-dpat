@@ -6,7 +6,7 @@ const fs = require("fs");
 
 const defaultWebpackConfig = require.resolve('../webpack/webpack.config-distribution');
 const __path = require("path");
-const project = require("../project");
+const project = require("../Project");
 
 /**
  * @param {String} path

@@ -8,7 +8,7 @@ const AsyncAction = require('../../../commander/AsyncAction');
 const defaultWebpackConfig = require.resolve('../webpack/webpack.config-distribution');
 const __path = require("path");
 
-const project = require("../project");
+const project = require("../Project");
 const packageFilename = 'app.zip';
 
 /**

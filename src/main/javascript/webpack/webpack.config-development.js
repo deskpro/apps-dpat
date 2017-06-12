@@ -1,19 +1,33 @@
-const path = require('path');
-const webpack = require('webpack');
+const execSync = require('child_process').execSync;
+const nodeRoot = execSync('npm root -g').toString().trim();
 
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const WriteFilePlugin = require('write-file-webpack-plugin');
+const path = require('path');
+const fs = require('fs');
+
+const globalDpatPath = path.join(nodeRoot, '@deskproapps', 'dpat');
+
+const webpack = require('@deskproapps/dpat/node_modules/webpack');
+const ExtractTextPlugin = require('@deskproapps/dpat/node_modules/extract-text-webpack-plugin');
+const WriteFilePlugin = require('@deskproapps/dpat/node_modules/write-file-webpack-plugin');
+
+const BuildUtils = require('@deskproapps/dpat/src/main/javascript/webpack/BuildUtils');
+const CopyAssets = require('@deskproapps/dpat/src/main/javascript/webpack/CopyAssets');
 
 module.exports = function (env) {
 
   const PROJECT_ROOT_PATH = env && env.DP_PROJECT_ROOT ? env.DP_PROJECT_ROOT : path.resolve(__dirname, '../../');
   const ASSET_PATH = 'assets';
 
-  const artifactName = require('./BuildUtils').artifactName(PROJECT_ROOT_PATH);
-  const copyWebpackPlugin = require('./CopyAssets').copyWebpackPlugin(PROJECT_ROOT_PATH)('target');
+  const manifestJsonPath = path.join(PROJECT_ROOT_PATH, 'manifest.json');
+  const manifestJson = require(manifestJsonPath);
+  const BASE_PATH = `v${manifestJson.appVersion}/files`;
+
+  const localDpatPath  = path.join(PROJECT_ROOT_PATH, 'node_modules', '@deskproapps', 'dpat');
+  const dpatPath = fs.existsSync(localDpatPath) ? localDpatPath : globalDpatPath;
+
   const extractCssPlugin = new ExtractTextPlugin({
     filename: '[name].css',
-    publicPath: `/${ASSET_PATH}/`,
+    publicPath: `/${BASE_PATH}/${ASSET_PATH}/`,
     allChunks: true
   });
 
@@ -25,7 +39,7 @@ module.exports = function (env) {
       hot: true,
       historyApiFallback: true,
       port: 31080,
-      publicPath: ['/', ASSET_PATH, '/'].join(''),
+      publicPath: `/${BASE_PATH}/${ASSET_PATH}/`,
       watchContentBase: true,
       headers : {
         'Access-Control-Allow-Origin': '*',
@@ -36,7 +50,6 @@ module.exports = function (env) {
     externals: {
       'react': 'React',
       'react-dom': 'ReactDOM',
-      '@deskproapps/deskproapps-sdk-react': 'DeskproAppsSDKReact'
     },
     devtool: 'inline-source-map',
     entry: {
@@ -44,14 +57,14 @@ module.exports = function (env) {
         `webpack-dev-server/client?http://localhost:31080`,
         path.resolve(PROJECT_ROOT_PATH, 'src/webpack/entrypoint.js')
       ],
-      vendor: ['react', 'react-dom', 'semantic-ui-react', '@deskproapps/deskproapps-sdk-react']
+      vendor: BuildUtils.autoVendorPackages(PROJECT_ROOT_PATH)
     },
     module: {
       loaders: [
         {
           test: /\.jsx?$/,
           loader: 'babel-loader',
-          include: [path.resolve(PROJECT_ROOT_PATH, 'src/main/javascript'),]
+          include: [path.resolve(PROJECT_ROOT_PATH, 'src/main/javascript'), path.resolve(PROJECT_ROOT_PATH, 'node_modules', '@deskproapps'),]
         },
         {
           test: /\.css$/,
@@ -65,17 +78,19 @@ module.exports = function (env) {
       ],
     },
     output: {
-      chunkFilename: `${ASSET_PATH}/[name].js`,
+      chunkFilename: `${BASE_PATH}/${ASSET_PATH}/[name].js`,
       filename: '[name].js',
       path: path.resolve(PROJECT_ROOT_PATH, 'target'),
-      publicPath: ['/', ASSET_PATH, '/'].join('')
+      publicPath: `/${BASE_PATH}/${ASSET_PATH}/`
     },
     plugins: [
       extractCssPlugin,
 
       new webpack.optimize.CommonsChunkPlugin({name: ['vendor'], minChunks: Infinity}),
       new webpack.NamedModulesPlugin(),
-      copyWebpackPlugin,
+
+      CopyAssets.copyWebpackPlugin(PROJECT_ROOT_PATH)(`target/${BASE_PATH}`),
+
       new WriteFilePlugin({
         test: /\html\/|assets\/|dists\/|manifest\.json/,
         useHashIndex: false
@@ -85,7 +100,11 @@ module.exports = function (env) {
       new webpack.NoEmitOnErrorsPlugin(),
     ],
     resolve: {
-      extensions: ['*', '.js', '.jsx', '.scss', '.css']
+      extensions: ['*', '.js', '.jsx', '.scss', '.css'],
+      modules: [ "node_modules", path.join(dpatPath, "node_modules"), path.join(PROJECT_ROOT_PATH, "node_modules") ],
+    },
+    resolveLoader: {
+      modules: [ "node_modules", path.join(dpatPath, "node_modules"), path.join(PROJECT_ROOT_PATH, "node_modules") ]
     },
     node: {fs: 'empty'},
     bail: true

@@ -1,30 +1,36 @@
+const execSync = require('child_process').execSync;
+const nodeRoot = execSync('npm root -g').toString().trim();
+
 const path = require('path');
-const webpack = require('webpack');
-const ManifestPlugin = require('webpack-manifest-plugin');
-const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
-const WebpackChunkHash = require('webpack-chunk-hash');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const dpatNodeModulesPath = path.join(nodeRoot, '@deskproapps', 'dpat', 'node_modules');
+
+const webpack = require('@deskproapps/dpat/node_modules/webpack');
+const ManifestPlugin = require('@deskproapps/dpat/node_modules/chunk-manifest-webpack-plugin');
+const ChunkManifestPlugin = require('@deskproapps/dpat/node_modules/webpack-chunk-hash');
+const WebpackChunkHash = require('@deskproapps/dpat/node_modules/webpack-chunk-hash');
+const ExtractTextPlugin = require('@deskproapps/dpat/node_modules/extract-text-webpack-plugin');
+
+const BuildUtils = require('@deskproapps/dpat/src/main/javascript/webpack/BuildUtils');
+const CopyAssets = require('@deskproapps/dpat/src/main/javascript/webpack/CopyAssets');
 
 module.exports = function (env) {
 
-  const PROJECT_ROOT_PATH = env.DP_PROJECT_ROOT || path.resolve(__dirname, '../../');
+  const PROJECT_ROOT_PATH = env && env.DP_PROJECT_ROOT ? env.DP_PROJECT_ROOT : path.resolve(__dirname, '../../');
   const ASSET_PATH = 'assets';
-  const PRODUCTION = !env.NODE_ENV || env.NODE_ENV === 'production';
+  const PRODUCTION = !env || !env.NODE_ENV || env.NODE_ENV === 'production';
 
-  const copyWebpackPlugin = require('./CopyAssets').copyWebpackPlugin(PROJECT_ROOT_PATH)('dist');
   const extractCssPlugin = new ExtractTextPlugin({ filename: '[name].css', publicPath: `/${ASSET_PATH}/`, allChunks: true });
 
   const configParts = [{}];
   configParts.push({
-    devtool: 'source-map',
+    devtool: PRODUCTION ? false : 'source-map',
     entry: {
         main: [ path.resolve(PROJECT_ROOT_PATH, 'src/webpack/entrypoint.js') ],
-        vendor: ['semantic-ui-react']
+        vendor: BuildUtils.autoVendorPackages(PROJECT_ROOT_PATH)
     },
     externals: {
       'react': 'React',
       'react-dom': 'ReactDOM',
-      '@deskproapps/deskproapps-sdk-react': 'DeskproAppsSDKReact'
     },
     module: {
       loaders: [
@@ -51,15 +57,18 @@ module.exports = function (env) {
       chunkFilename: '[name].js',
       filename: '[name].js',
       path: path.resolve(PROJECT_ROOT_PATH, 'dist', ASSET_PATH)
-
-      //publicPath: `/${ASSET_PATH}/`
     },
     plugins: [
       extractCssPlugin,
 
       new webpack.DefinePlugin({ PRODUCTION: PRODUCTION }),
+
       // for stable builds, in production we replace the default module index with the module's content hashe
       new webpack.HashedModuleIdsPlugin(),
+      new webpack.optimize.UglifyJsPlugin({
+        sourceMap: !PRODUCTION,
+        compress: {unused: true, dead_code: true, warnings: false}
+      }),
 
       // replace a standard webpack chunk hashing with custom (md5) one
       new WebpackChunkHash(),
@@ -70,10 +79,13 @@ module.exports = function (env) {
       // mapping of all source file names to their corresponding output file
       new ManifestPlugin({ fileName: 'asset-manifest.json' }),
 
-      copyWebpackPlugin
+      CopyAssets.copyWebpackPlugin(PROJECT_ROOT_PATH)(`target/${BASE_PATH}`),
     ],
     resolve: {
       extensions: ['*', '.js', '.jsx', '.scss', '.css']
+    },
+    resolveLoader: {
+      modules: [ "node_modules", dpatNodeModulesPath ],
     },
     node: { fs: 'empty' },
     bail: true
