@@ -1,3 +1,9 @@
+## Upcoming
+
+* [FEATURE] Add options to resolve babel plugins and presets relative to dpat installation root
+* [FEATURE] Add possibility to collect all dependencies from package.json in a vendor bundle
+* [MAINTENANCE] Adjust webpack build scripts  
+
 ## v0.3.2 - 2017-06-12
 
 * [FEATURE] Add more build commands

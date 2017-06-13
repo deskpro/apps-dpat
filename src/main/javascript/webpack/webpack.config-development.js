@@ -1,10 +1,10 @@
-const execSync = require('child_process').execSync;
-const nodeRoot = execSync('npm root -g').toString().trim();
-
 const path = require('path');
 const fs = require('fs');
 
-const globalDpatPath = path.join(nodeRoot, '@deskproapps', 'dpat');
+let dpatRoot = require.resolve('@deskproapps/dpat');
+while (path !== '/' && dpatRoot.lastIndexOf('@deskproapps/dpat') + '@deskproapps/dpat'.length !== dpatRoot.length) {
+  dpatRoot = path.dirname(dpatRoot);
+}
 
 const webpack = require('@deskproapps/dpat/node_modules/webpack');
 const ExtractTextPlugin = require('@deskproapps/dpat/node_modules/extract-text-webpack-plugin');
@@ -22,8 +22,7 @@ module.exports = function (env) {
   const manifestJson = require(manifestJsonPath);
   const BASE_PATH = `v${manifestJson.appVersion}/files`;
 
-  const localDpatPath  = path.join(PROJECT_ROOT_PATH, 'node_modules', '@deskproapps', 'dpat');
-  const dpatPath = fs.existsSync(localDpatPath) ? localDpatPath : globalDpatPath;
+  const babelOptions = BuildUtils.resolveBabelOptions(PROJECT_ROOT_PATH, { babelrc: false });
 
   const extractCssPlugin = new ExtractTextPlugin({
     filename: '[name].css',
@@ -57,14 +56,19 @@ module.exports = function (env) {
         `webpack-dev-server/client?http://localhost:31080`,
         path.resolve(PROJECT_ROOT_PATH, 'src/webpack/entrypoint.js')
       ],
-      vendor: BuildUtils.autoVendorPackages(PROJECT_ROOT_PATH)
+      vendor: BuildUtils.autoVendorDependencies(PROJECT_ROOT_PATH)
     },
     module: {
       loaders: [
         {
           test: /\.jsx?$/,
           loader: 'babel-loader',
-          include: [path.resolve(PROJECT_ROOT_PATH, 'src/main/javascript'), path.resolve(PROJECT_ROOT_PATH, 'node_modules', '@deskproapps'),]
+          include: [
+            path.resolve(PROJECT_ROOT_PATH, 'src/main/javascript'),
+            path.resolve(PROJECT_ROOT_PATH, 'node_modules', '@deskproapps', 'deskproapps-sdk-core'),
+            path.resolve(PROJECT_ROOT_PATH, 'node_modules', '@deskproapps', 'deskproapps-sdk-react')
+          ],
+          options: babelOptions
         },
         {
           test: /\.css$/,
@@ -101,10 +105,10 @@ module.exports = function (env) {
     ],
     resolve: {
       extensions: ['*', '.js', '.jsx', '.scss', '.css'],
-      modules: [ "node_modules", path.join(dpatPath, "node_modules"), path.join(PROJECT_ROOT_PATH, "node_modules") ],
+      modules: [ "node_modules", path.join(dpatRoot, "node_modules"), path.join(PROJECT_ROOT_PATH, "node_modules") ],
     },
     resolveLoader: {
-      modules: [ "node_modules", path.join(dpatPath, "node_modules"), path.join(PROJECT_ROOT_PATH, "node_modules") ]
+      modules: [ "node_modules", path.join(dpatRoot, "node_modules"), path.join(PROJECT_ROOT_PATH, "node_modules") ]
     },
     node: {fs: 'empty'},
     bail: true

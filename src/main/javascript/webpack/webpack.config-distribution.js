@@ -1,8 +1,9 @@
-const execSync = require('child_process').execSync;
-const nodeRoot = execSync('npm root -g').toString().trim();
-
 const path = require('path');
-const dpatNodeModulesPath = path.join(nodeRoot, '@deskproapps', 'dpat', 'node_modules');
+
+let dpatRoot = require.resolve('@deskproapps/dpat');
+while (path !== '/' && dpatRoot.lastIndexOf('@deskproapps/dpat') + '@deskproapps/dpat'.length !== dpatRoot.length) {
+  dpatRoot = path.dirname(dpatRoot);
+}
 
 const webpack = require('@deskproapps/dpat/node_modules/webpack');
 const ManifestPlugin = require('@deskproapps/dpat/node_modules/chunk-manifest-webpack-plugin');
@@ -19,6 +20,8 @@ module.exports = function (env) {
   const ASSET_PATH = 'assets';
   const PRODUCTION = !env || !env.NODE_ENV || env.NODE_ENV === 'production';
 
+  const babelOptions = BuildUtils.resolveBabelOptions(PROJECT_ROOT_PATH, { babelrc: false });
+
   const extractCssPlugin = new ExtractTextPlugin({ filename: '[name].css', publicPath: `/${ASSET_PATH}/`, allChunks: true });
 
   const configParts = [{}];
@@ -26,7 +29,7 @@ module.exports = function (env) {
     devtool: PRODUCTION ? false : 'source-map',
     entry: {
         main: [ path.resolve(PROJECT_ROOT_PATH, 'src/webpack/entrypoint.js') ],
-        vendor: BuildUtils.autoVendorPackages(PROJECT_ROOT_PATH)
+        vendor: BuildUtils.autoVendorDependencies(PROJECT_ROOT_PATH)
     },
     externals: {
       'react': 'React',
@@ -35,20 +38,23 @@ module.exports = function (env) {
     module: {
       loaders: [
         {
-            test: /\.jsx?$/,
-            loader: 'babel-loader',
-            include: [
-                path.resolve(PROJECT_ROOT_PATH, 'src/main/javascript'),
-            ]
+          test: /\.jsx?$/,
+          loader: 'babel-loader',
+          include: [
+            path.resolve(PROJECT_ROOT_PATH, 'src/main/javascript'),
+            path.resolve(PROJECT_ROOT_PATH, 'node_modules', '@deskproapps', 'deskproapps-sdk-core'),
+            path.resolve(PROJECT_ROOT_PATH, 'node_modules', '@deskproapps', 'deskproapps-sdk-react')
+          ],
+          options: babelOptions
         },
         {
-            test: /\.css$/,
-            use: extractCssPlugin.extract({ use: ['style-loader', 'css-loader'] })
+          test: /\.css$/,
+          use: extractCssPlugin.extract({ use: ['style-loader', 'css-loader'] })
         },
         {
-            include: [ path.resolve(PROJECT_ROOT_PATH, 'src/main/sass') ],
-            loader: extractCssPlugin.extract({ use: ['css-loader', 'sass-loader'] }),
-            test: /\.scss$/
+          include: [ path.resolve(PROJECT_ROOT_PATH, 'src/main/sass') ],
+          loader: extractCssPlugin.extract({ use: ['css-loader', 'sass-loader'] }),
+          test: /\.scss$/
         }
       ],
     },
@@ -79,13 +85,14 @@ module.exports = function (env) {
       // mapping of all source file names to their corresponding output file
       new ManifestPlugin({ fileName: 'asset-manifest.json' }),
 
-      CopyAssets.copyWebpackPlugin(PROJECT_ROOT_PATH)(`target/${BASE_PATH}`),
+      CopyAssets.copyWebpackPlugin(PROJECT_ROOT_PATH)('dist'),
     ],
     resolve: {
-      extensions: ['*', '.js', '.jsx', '.scss', '.css']
+      extensions: ['*', '.js', '.jsx', '.scss', '.css'],
+      modules: [ "node_modules", path.join(dpatRoot, "node_modules"), path.join(PROJECT_ROOT_PATH, "node_modules") ],
     },
     resolveLoader: {
-      modules: [ "node_modules", dpatNodeModulesPath ],
+      modules: [ "node_modules", path.join(dpatRoot, "node_modules"), path.join(PROJECT_ROOT_PATH, "node_modules") ]
     },
     node: { fs: 'empty' },
     bail: true
