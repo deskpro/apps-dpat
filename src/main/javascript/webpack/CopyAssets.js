@@ -1,6 +1,7 @@
 "use strict";
 
 const path = require('path');
+const fs = require('fs');
 const CopyWebpackPlugin = require('@deskproapps/dpat/node_modules/copy-webpack-plugin');
 
 /**
@@ -69,12 +70,26 @@ function getStaticAssetCopyPatterns(destination, projectRoot)
   // patterns for copying distribution files for dev
   let patternsForTarget = [];
   if (destination != 'dist') {
-    patternsForTarget = [
-      {
-        from: path.resolve(projectRoot, 'node_modules', '@deskproapps', 'deskproapps-sdk-react', 'dist', 'deskproapps-sdk-react.js'),
+
+    const deskproSdkReactPath = path.join(projectRoot, 'node_modules', '@deskproapps', 'deskproapps-sdk-react', 'dist', 'deskproapps-sdk-react.js');
+    if (fs.existsSync(deskproSdkReactPath)) {
+      patternsForTarget.push({
+        from: deskproSdkReactPath,
         to: path.join(projectRoot, destination, 'assets', 'deskproapps-sdk-react.js'),
         force: true
-      },
+      });
+    }
+
+    const deskproSdkCorePath = path.join(projectRoot, 'node_modules', '@deskproapps', 'deskproapps-sdk-react', 'dist', 'deskproapps-sdk-core.js');
+    if (fs.existsSync(deskproSdkCorePath)) {
+      patternsForTarget.push({
+        from: deskproSdkCorePath,
+        to: path.join(projectRoot, destination, 'assets', 'deskproapps-sdk-core.js'),
+        force: true
+      });
+    }
+
+    patternsForTarget = patternsForTarget.concat([
       {
         from: path.resolve(projectRoot, 'node_modules', 'react', 'dist', 'react.js'),
         to: path.join(projectRoot, destination, 'assets', 'react.js'),
@@ -85,7 +100,7 @@ function getStaticAssetCopyPatterns(destination, projectRoot)
         to: path.join(projectRoot, destination, 'assets', 'react-dom.js'),
         force: true
       }
-    ];
+    ]);
   }
 
   return patterns.concat(patternsForTarget);
@@ -97,25 +112,25 @@ function getStaticAssetCopyPatterns(destination, projectRoot)
  */
 function createPlugin(copyPatterns)
 {
-    let commands;
-    if (typeof copyPatterns === 'string') {
-      commands = getStaticAssetCopyPatterns(copyPatterns);
-    } else if (copyPatterns instanceof Array && copyPatterns.length) {
-        commands = copyPatterns;
-    } else {
-        throw new Error('unexpected argument. Expecting either a destination or an array of copy commands');
-    }
+  let commands;
+  if (typeof copyPatterns === 'string') {
+    commands = getStaticAssetCopyPatterns(copyPatterns);
+  } else if (copyPatterns instanceof Array && copyPatterns.length) {
+    commands = copyPatterns;
+  } else {
+    throw new Error('unexpected argument. Expecting either a destination or an array of copy commands');
+  }
 
-    const options = { debug: true, copyUnmodified: true };
-    return new CopyWebpackPlugin(commands, options);
+  const options = { debug: true, copyUnmodified: true };
+  return new CopyWebpackPlugin(commands, options);
 }
 
 module.exports = {
-    getCopyCommands: getStaticAssetCopyPatterns,
-    copyWebpackPlugin: function (projectDir) {
-      return function (destination) {
-        const copyPatterns = getStaticAssetCopyPatterns(destination, projectDir);
-        return createPlugin(copyPatterns);
-      }
+  getCopyCommands: getStaticAssetCopyPatterns,
+  copyWebpackPlugin: function (projectDir) {
+    return function (destination) {
+      const copyPatterns = getStaticAssetCopyPatterns(destination, projectDir);
+      return createPlugin(copyPatterns);
     }
+  }
 };

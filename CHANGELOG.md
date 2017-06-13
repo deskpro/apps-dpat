@@ -1,3 +1,7 @@
+## Upcoming
+* [FIX] Failure to resolve dpat root path 
+* [FIX] In dev mode, copy sdk distributions only if they have been added as dependencies 
+
 ## v0.3.3 - 2017-06-13
 
 * [FEATURE] Add options to resolve babel plugins and presets relative to dpat installation root

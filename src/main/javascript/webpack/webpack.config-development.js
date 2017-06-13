@@ -2,7 +2,7 @@ const path = require('path');
 const fs = require('fs');
 
 let dpatRoot = require.resolve('@deskproapps/dpat');
-while (path !== '/' && dpatRoot.lastIndexOf('@deskproapps/dpat') + '@deskproapps/dpat'.length !== dpatRoot.length) {
+while (dpatRoot !== '/' && path.basename(dpatRoot) !== 'dpat') {
   dpatRoot = path.dirname(dpatRoot);
 }
 
