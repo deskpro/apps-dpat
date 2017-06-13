@@ -1,4 +1,4 @@
-## Upcoming
+## v0.3.4 - 2017-06-13
 * [FIX] Failure to resolve dpat root path 
 * [FIX] In dev mode, copy sdk distributions only if they have been added as dependencies 
 
