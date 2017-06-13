@@ -1,4 +1,4 @@
-## Upcoming
+## v0.3.3 - 2017-06-13
 
 * [FEATURE] Add options to resolve babel plugins and presets relative to dpat installation root
 * [FEATURE] Add possibility to collect all dependencies from package.json in a vendor bundle
