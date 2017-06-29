@@ -1,3 +1,6 @@
+## v0.4.1 - 2017-06-29
+* [MAINTENANCE] Version bump due to previous version blocked by npm (un-published)  
+
 ## v0.4.0 - 2017-06-29
 
 * [FIX] Webpack executables not found if dpat installed globally
