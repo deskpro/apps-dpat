@@ -1,4 +1,4 @@
-## Upcoming
+## v0.4.2 - 2017-06-29
 
 * [FEATURE] Use deskpro key in package.json to generate app manifest
 * [MAINTENANCE] Improved error messages from cli commands
