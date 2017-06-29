@@ -1,4 +1,10 @@
+## Upcoming
+
+* [FEATURE] Use deskpro key in package.json to generate app manifest
+* [MAINTENANCE] Improved error messages from cli commands
+  
 ## v0.4.1 - 2017-06-29
+
 * [MAINTENANCE] Version bump due to previous version blocked by npm (un-published)  
 
 ## v0.4.0 - 2017-06-29
