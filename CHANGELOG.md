@@ -1,4 +1,4 @@
-## Upcoming
+## v0.4.0 - 2017-06-29
 
 * [FIX] Webpack executables not found if dpat installed globally
 * [FEATURE] Add new build module which exports all the tools for building apps
