@@ -1,4 +1,4 @@
-## Upcoming
+## v0.4.3 - 2017-06-30
 * [FIX] Manifest validation error prevents dev server from starting
 
 ## v0.4.2 - 2017-06-29
