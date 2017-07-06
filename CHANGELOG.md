@@ -1,4 +1,4 @@
-## Upcoming
+## v0.4.4 - 2017-07-06
 * [FIX] The algorithm that resolves the source for the application manifest does not choose manifest.json when that file is present
 
 ## v0.4.3 - 2017-06-30
