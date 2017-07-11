@@ -57,6 +57,7 @@ class Builder
     const manifestJson = typeof content === 'string' ? JSON.parse(content) : content;
 
     copyProperties(this.props, manifestJson, []);
+    return this;
   }
 
   /**

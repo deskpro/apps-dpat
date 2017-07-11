@@ -1,4 +1,4 @@
-const validManifest = require('../../resources/valid_app_manifest.json');
+const validManifest = require('../../resources/valid-app-manifest-v2.1.0.manifest.json');
 const SyntaxValidator = require('../../../main/javascript/Manifest/SyntaxValidator');
 const ManifestSchema = require('../../../main/javascript/Manifest/ManifestSchema');
 
