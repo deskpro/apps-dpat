@@ -1,4 +1,4 @@
-# dpat
+# dpat &middot; [![Build Status](https://travis-ci.org/deskpro/deskproapps-dpat.svg?branch=master)](https://travis-ci.org/deskpro/deskproapps-dpat)
 Deskpro Apps Tool
 
 ## Installation
@@ -9,4 +9,4 @@ It is best to install this package globally
 
 ## Documentation
 
-View online docs at: https://deskproapps.github.io/dpat/
+View online docs at: https://deskpro.github.io/deskproapps-dpat/
