@@ -1,3 +1,6 @@
+## Upcoming
+* [FIX] Development server fails to start due to missing return value
+
 ## v0.4.5 - 2017-07-11
 * [MAINTENANCE] update links after transferring the repository to the `Deskpro` organization
 * [MAINTENANCE] enable travis ci integration
