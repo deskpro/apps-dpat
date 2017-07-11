@@ -1,4 +1,4 @@
-## Upcoming
+## v0.4.6 - 2017-07-11
 * [FIX] Development server fails to start due to missing return value
 
 ## v0.4.5 - 2017-07-11
