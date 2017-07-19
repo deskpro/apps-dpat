@@ -1,6 +1,6 @@
 {
   "name": "@deskproapps/dpat",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "dependencies": {
     "abbrev": {
       "version": "1.1.0",
