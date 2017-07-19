@@ -1,3 +1,6 @@
+## v0.4.7 - 2017-07-19
+* [ADDITION] add validation using schema for the state access rules entry from the app's manifest
+
 ## v0.4.6 - 2017-07-11
 * [FIX] Development server fails to start due to missing return value
 
