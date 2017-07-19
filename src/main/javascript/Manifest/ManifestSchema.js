@@ -27,6 +27,11 @@ const ManifestSchema = Object.assign({}, {
     settings: {
       type: "array"
     },
+    state: {
+      type: "array",
+      minItems: 0,
+      items: { "$ref": "#/definitions/state" }
+    },
     version: {
       type: "string"
     },
@@ -45,6 +50,16 @@ const ManifestSchema = Object.assign({}, {
   },
   required: ["name", "description", "author", "scope", "targets"],
   definitions: {
+    state : {
+      type: "object",
+      properties: {
+        isBackendOnly : { type : "boolean" },
+        permRead: { type : "string", enum: ["EVERYBODY", "OWNER"] },
+        permWrite: { type : "string", enum: ["EVERYBODY", "OWNER"] },
+        name : { type : "string" }
+      },
+      required: [ "name", "permRead", "permWrite", "isBackendOnly" ]
+    },
     author: {
       type: "object",
       properties: {

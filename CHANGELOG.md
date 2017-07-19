@@ -1,3 +1,6 @@
+## Upcoming
+* [FIX] add missing state key schema definitions
+
 ## v0.4.7 - 2017-07-19
 * [ADDITION] add validation using schema for the state access rules entry from the app's manifest
 
