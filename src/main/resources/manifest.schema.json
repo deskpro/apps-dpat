@@ -11,13 +11,14 @@
       "type": "string"
     },
     "author": { "$ref": "#/definitions/author" },
-    "is_single": {
+    "isSingle": {
       "type": "boolean"
     },
     "scope": {
       "type": "string",
       "enum": ["agent", "user"]
     },
+    "state": { "$ref": "#/definitions/state" },
     "targets": {
       "type": "array",
       "minItems": 1,
@@ -33,6 +34,16 @@
   },
   "required": [ "name", "description", "author", "scope", "targets" ],
   "definitions": {
+    "state" : {
+      "type": "object",
+      "properties": {
+        "isBackendOnly" : { "type" : "boolean" },
+        "permRead": { "type" : "string", "enum": ["EVERYBODY", "OWNER"] },
+        "permWrite": { "type" : "string", "enum": ["EVERYBODY", "OWNER"] },
+        "name" : { "type" : "string" }
+      },
+      "required": [ "name", "permRead", "permWrite", "isBackendOnly" ]
+    },
     "author" : {
       "type": "object",
       "properties": {
