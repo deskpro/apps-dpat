@@ -1,4 +1,4 @@
-## Upcoming
+## v0.4.8 - 2017-07-19
 * [FIX] add missing state key schema definitions
 
 ## v0.4.7 - 2017-07-19
