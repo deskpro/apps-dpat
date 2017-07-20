@@ -1,4 +1,4 @@
-## Upcoming
+## v0.4.9 - 2017-07-20
 * [FIX] dpat failure to run on travis ci because of incomplete environment in spawned child processes
 
 ## v0.4.8 - 2017-07-19
