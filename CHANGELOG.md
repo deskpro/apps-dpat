@@ -1,3 +1,6 @@
+## Upcoming
+* [FIX] dpat failure to run on travis ci because of incomplete environment in spawned child processes
+
 ## v0.4.8 - 2017-07-19
 * [FIX] add missing state key schema definitions
 
