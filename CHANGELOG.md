@@ -1,3 +1,6 @@
+## Upcoming
+* [MAINTENANCE] add travis publishing options to package.json 
+
 ## v0.4.10 - 2017-08-02
 * [MAINTENANCE] enable travis automated builds and deploys
 * [MAINTENANCE] make all dependencies run-time dependencies to be able to run jest tests directly when dpat is installed 
