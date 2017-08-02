@@ -1,6 +1,6 @@
 {
   "name": "@deskproapps/dpat",
-  "version": "0.4.11",
+  "version": "0.4.12",
   "dependencies": {
     "abab": {
       "version": "1.0.3",
