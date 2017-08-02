@@ -1,4 +1,4 @@
-## Upcoming
+## v0.4.11 - 2017-08-02
 * [MAINTENANCE] add travis publishing options to package.json 
 
 ## v0.4.10 - 2017-08-02
