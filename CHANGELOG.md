@@ -1,4 +1,4 @@
-## Upcoming
+## v0.5.1 - 2017-08-09
 * [FIX] create NODE_PATH variable if not set
 
 ## v0.5.0 - 2017-08-09
