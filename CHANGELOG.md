@@ -1,4 +1,4 @@
-## Upcoming
+## v0.5.2 - 2017-08-09
 * [FEATURE] add babel support for async/await
 
 ## v0.5.1 - 2017-08-09
