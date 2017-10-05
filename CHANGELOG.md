@@ -8,6 +8,12 @@ This project is following [Semantic Versioning](http://semver.org)
 
 ### Added
 
+ - support for manifest version 2.3.0 
+
+## [0.6.0][] - 2017-09-18
+
+### Added
+
  - support for validating multiple manifest versions
  - schema for manifest version 2.2.0 which renames the top-level key "state" to "storage"
 
