@@ -4,6 +4,8 @@ This project is following [Semantic Versioning](http://semver.org)
 
 ## [Unreleased][]
 
+## [0.7.0][] - 2017-10-05
+
 ### Added
 
  - support for manifest version 2.3.0 
@@ -191,5 +193,6 @@ This project is following [Semantic Versioning](http://semver.org)
 
 * Initial public release
 
-[Unreleased]: https://github.com/Deskpro/deskproapps-dpat/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/Deskpro/deskproapps-dpat/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/Deskpro/deskproapps-dpat/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/Deskpro/deskproapps-dpat/tree/v0.6.0
