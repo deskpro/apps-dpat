@@ -4,8 +4,6 @@ This project is following [Semantic Versioning](http://semver.org)
 
 ## [Unreleased][]
 
-## [0.6.0][] - 2017-09-18
-
 ### Added
 
  - support for manifest version 2.3.0 
