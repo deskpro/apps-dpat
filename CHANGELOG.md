@@ -4,6 +4,8 @@ This project is following [Semantic Versioning](http://semver.org)
 
 ## [Unreleased][]
 
+## [0.7.1][] - 2017-10-09
+
 ### Fixed
 
  - removed obsolete property named `enabled` from the custom field manifest definition 
@@ -199,6 +201,7 @@ This project is following [Semantic Versioning](http://semver.org)
 
 * Initial public release
 
-[Unreleased]: https://github.com/Deskpro/deskproapps-dpat/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/Deskpro/deskproapps-dpat/compare/v0.7.1...HEAD
+[0.7.1]: https://github.com/Deskpro/deskproapps-dpat/compare/v0.7.0...v0.7.1
 [0.7.0]: https://github.com/Deskpro/deskproapps-dpat/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/Deskpro/deskproapps-dpat/tree/v0.6.0
