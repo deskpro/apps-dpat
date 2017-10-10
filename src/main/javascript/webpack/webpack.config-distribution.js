@@ -62,7 +62,10 @@ module.exports = function (env) {
     plugins: [
       extractCssPlugin,
 
-      new dpat.Webpack.DefinePlugin({ DEBUG: DEBUG }),
+      new dpat.Webpack.DefinePlugin({
+        DEBUG: DEBUG,
+        DPAPP_MANIFEST: JSON.stringify(buildManifest.getContent())
+      }),
 
       // for stable builds, in production we replace the default module index with the module's content hashe
       new dpat.Webpack.HashedModuleIdsPlugin(),

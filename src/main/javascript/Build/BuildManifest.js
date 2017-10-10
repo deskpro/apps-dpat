@@ -41,6 +41,7 @@ class BuildManifest
     const props = typeof opts === 'object' ? opts : {} ;
 
     this.props = {
+      projectDir,
       distributionType: props.distributionType || DIST_TYPE_PRODUCTION,
       packagingType: props.packagingType || PACKAGING_TYPE_LOCAL,
       appVersion: resolveAppVersion(projectDir)
@@ -52,6 +53,16 @@ class BuildManifest
   getPackagingType () { return this.props.packagingType; }
 
   getAppVersion () { return this.props.appVersion; }
+  
+  getContent() {
+    const src = new ManifestResolver().resolveSourceFromDirectory(this.props.projectDir);
+    if (!src) {
+      throw new Error(`app version not found in project dir ${this.props.projectDir}`);
+    }
+  
+    const content = JSON.parse(fs.readFileSync(src.path, 'utf8'));
+    return src.name === 'package.json' ? content.deskpro : content;
+  }
 }
 
 module.exports = BuildManifest;
