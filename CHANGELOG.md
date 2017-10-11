@@ -4,6 +4,8 @@ This project is following [Semantic Versioning](http://semver.org)
 
 ## [Unreleased][]
 
+## [0.8.0][] - 2017-10-11
+
 ### Added
 
  - add a command to bundle the default app installer together with the app
@@ -209,7 +211,8 @@ This project is following [Semantic Versioning](http://semver.org)
 
 * Initial public release
 
-[Unreleased]: https://github.com/Deskpro/deskproapps-dpat/compare/v0.7.1...HEAD
+[Unreleased]: https://github.com/Deskpro/deskproapps-dpat/compare/v0.8.0...HEAD
+[0.8.0]: https://github.com/Deskpro/deskproapps-dpat/compare/v0.7.1...v0.8.0
 [0.7.1]: https://github.com/Deskpro/deskproapps-dpat/compare/v0.7.0...v0.7.1
 [0.7.0]: https://github.com/Deskpro/deskproapps-dpat/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/Deskpro/deskproapps-dpat/tree/v0.6.0
