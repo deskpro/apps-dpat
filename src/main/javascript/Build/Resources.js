@@ -114,17 +114,17 @@ function sdkResources(buildManifest, projectRoot)
   const forProduction = buildManifest.getDistributionType() === 'production';
   const destination = forProduction ? 'dist' : ['target', 'v' + buildManifest.getAppVersion(), 'files'].join(path.sep);
 
-  const deskproappsPath = path.join(projectRoot, 'node_modules', '@deskproapps');
+  const deskproPath = path.join(projectRoot, 'node_modules', '@deskpro');
 
   return [
     {
-      from: path.join(deskproappsPath, 'deskproapps-sdk-react', 'dist', 'deskproapps-sdk-react.js'),
-      to: path.join(projectRoot, destination, 'assets', 'deskproapps-sdk-react.js'),
+      from: path.join(deskproPath, 'apps-sdk-react', 'dist', 'apps-sdk-react.js'),
+      to: path.join(projectRoot, destination, 'assets', 'apps-sdk-react.js'),
       force: true
     },
     {
-      from: path.join(deskproappsPath, 'deskproapps-sdk-core', 'dist', 'deskproapps-sdk-core.js'),
-      to: path.join(projectRoot, destination, 'assets', 'deskproapps-sdk-core.js'),
+      from: path.join(deskproPath, 'apps-sdk-core', 'dist', 'apps-sdk-core.js'),
+      to: path.join(projectRoot, destination, 'assets', 'apps-sdk-core.js'),
       force: true
     }
   ];

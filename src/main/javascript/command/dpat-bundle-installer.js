@@ -32,7 +32,7 @@ function action(path, cmd, done)
 
   if (cmd.compile) {
     const webpackConfig = WebpackConfig.buildCompileConfig();
-    const src = fs.realpathSync(__path.resolve(__dirname, '../../../../node_modules/@deskproapps/app-installer'));
+    const src = fs.realpathSync(__path.resolve(__dirname, '../../../../node_modules/@deskpro/app-installer'));
     installerBuilder.buildFromSource(src, projectDir, webpackConfig);
     buildCb();
     return;
