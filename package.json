@@ -1,6 +1,6 @@
 {
   "name": "@deskpro/apps-dpat",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "DeskPRO apps tools",
   "main": "src/main/javascript/index.js",
   "bin": {
