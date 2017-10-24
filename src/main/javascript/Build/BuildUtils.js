@@ -73,7 +73,7 @@ const BuildUtils = {
     }
 
     let exclusions = excludePackages instanceof Array ? excludePackages : [];
-    exclusions  = [ '@deskproapps/dpat' ].concat(exclusions); // make sure we're excluding dpat
+    exclusions  = [ '@deskpro/apps-dpat' ].concat(exclusions); // make sure we're excluding dpat
     const extracted = extractVendors(packageJson);
     return extracted.filter(function (packageName) { return exclusions.indexOf(packageName) === -1; });
   },
@@ -90,7 +90,7 @@ const BuildUtils = {
     const packageJson = readPackageJson(projectDir);
     const extracted = extractVendors(packageJson);
 
-    return extracted.filter(function (packageName) { return startsWith(packageName, '@deskproapps/'); });
+    return extracted.filter(function (packageName) { return startsWith(packageName, '@deskpro/'); });
   },
 
   /**
@@ -106,7 +106,7 @@ const BuildUtils = {
     const packageJson = readPackageJson(projectDir);
     const extracted = extractVendors(packageJson);
 
-    return extracted.filter(function (packageName) { return !startsWith(packageName, '@deskproapps/'); });
+    return extracted.filter(function (packageName) { return !startsWith(packageName, '@deskpro/'); });
   },
 };
 

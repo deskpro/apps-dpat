@@ -1,7 +1,8 @@
 const path = require('path');
 const fs = require('fs');
 
-const dpat = require('@deskproapps/dpat');
+const dpat = require('../index.js');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = function (env)
 {
@@ -62,21 +63,31 @@ module.exports = function (env)
           loader: 'babel-loader',
           include: [
             path.resolve(PROJECT_ROOT_PATH, 'src/main/javascript'),
-            path.resolve(PROJECT_ROOT_PATH, 'node_modules', '@deskproapps', 'deskproapps-sdk-core'),
-            path.resolve(PROJECT_ROOT_PATH, 'node_modules', '@deskproapps', 'deskproapps-sdk-react')
-          ],
-          options: babelOptions
+            path.resolve(PROJECT_ROOT_PATH, 'node_modules', '@deskpro', 'apps-sdk-core'),
+            path.resolve(PROJECT_ROOT_PATH, 'node_modules', '@deskpro', 'apps-sdk-react')
+          ]
         },
         {
           test: /\.css$/,
           use: extractCssPlugin.extract({use: ['style-loader', 'css-loader']})
         },
         {
+          test:    /\.scss$/,
           include: [path.resolve(PROJECT_ROOT_PATH, 'src/main/sass')],
-          loader: extractCssPlugin.extract({use: ['css-loader', 'sass-loader']}),
-          test: /\.scss$/
-        }
-      ],
+          use:     ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use:      [
+              'css-loader',
+              { loader: 'sass-loader', options: { sourceMap: true } },
+            ],
+          }),
+        },
+        { test: /\.(png|jpg)$/, use: 'url-loader?limit=15000' },
+        { test: /\.eot(\?v=\d+.\d+.\d+)?$/, use: 'file-loader' },
+        { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, use: 'url-loader?limit=10000&mimetype=application/font-woff' },
+        { test: /\.[ot]tf(\?v=\d+.\d+.\d+)?$/, use: 'url-loader?limit=10000&mimetype=application/octet-stream' },
+        { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, use: 'url-loader?limit=10000&mimetype=image/svg+xml' }
+      ]
     },
     output: {
       chunkFilename: `${FILES_API_PATH}/${DISTRIBUTION_ASSET_PATH}/[name].js`,
@@ -86,6 +97,10 @@ module.exports = function (env)
     },
     plugins: [
       extractCssPlugin,
+  
+      new dpat.Webpack.DefinePlugin({
+        DPAPP_MANIFEST: JSON.stringify(buildManifest.getContent())
+      }),
 
       new dpat.Webpack.optimize.CommonsChunkPlugin({name: ['vendor'], minChunks: Infinity}),
       new dpat.Webpack.NamedModulesPlugin(),
@@ -97,7 +112,7 @@ module.exports = function (env)
       }),
 
       new dpat.Webpack.HotModuleReplacementPlugin(),
-      new dpat.Webpack.NoEmitOnErrorsPlugin(),
+      new dpat.Webpack.NoEmitOnErrorsPlugin()
     ],
     resolve: {
       extensions: ['*', '.js', '.jsx', '.scss', '.css'],
