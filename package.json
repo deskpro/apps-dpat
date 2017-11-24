@@ -1,6 +1,6 @@
 {
   "name": "@deskpro/apps-dpat",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "description": "DeskPRO apps tools",
   "main": "src/main/javascript/index.js",
   "bin": {
@@ -13,7 +13,7 @@
     "dpat": "node src/main/javascript/command/dpat.js",
     "test": "jest src/test",
     "version": "version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md",
-    "installer": "INSTALLER_VER=0.4.1; cd target; FILE=$(npm pack @deskpro/apps-installer@$INSTALLER_VER); mv $FILE apps-installer.tgz",
+    "installer": "INSTALLER_VER=0.4.2; cd target; FILE=$(npm pack @deskpro/apps-installer@$INSTALLER_VER); mv $FILE apps-installer.tgz",
     "postinstall": "npm run installer"
   },
   "repository": {
