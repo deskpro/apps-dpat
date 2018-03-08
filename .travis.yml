@@ -8,6 +8,7 @@ script:
 branches:
   only:
   - master
+  - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
 deploy:
   provider: npm
   api_key: $NPM_TOKEN
