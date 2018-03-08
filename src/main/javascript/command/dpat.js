@@ -14,4 +14,5 @@ program
     .command("clean <path>", "removes any previous build output")
     .command("test <path>", "runs the project's tests")
     .command("deploy [path] <instance>", "packages a distribution and deploys the package to a deskpro instance")
+    .command("travis <path>", "process a travis build step")
     .parse(process.argv);
