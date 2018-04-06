@@ -55,6 +55,7 @@ class PackageBuilder
 
     archive.directory(path.join(distDir, 'assets'), 'assets', {});
     archive.directory(path.join(distDir, 'html'), 'html', {});
+    archive.directory(path.join(distDir, 'docs'), 'docs', {});
     archive.file(path.join(distDir, 'manifest.json'), { name: 'manifest.json' });
 
     archive.pipe(output);

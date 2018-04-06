@@ -4,6 +4,10 @@ This project is following [Semantic Versioning](http://semver.org)
 
 ## [Unreleased][]
 
+## Added
+
+ - show app readme in app admin
+
 ## [0.10.3][] - 2018-03-29
 
 ### Changed
