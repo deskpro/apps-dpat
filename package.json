@@ -1,6 +1,6 @@
 {
   "name": "@deskpro/apps-dpat",
-  "version": "0.10.3",
+  "version": "0.10.4",
   "description": "DeskPRO apps tools",
   "main": "src/main/javascript/index.js",
   "bin": {
@@ -13,7 +13,7 @@
     "dpat": "node src/main/javascript/command/dpat.js",
     "test": "jest src/test",
     "version": "version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md",
-    "installer": "INSTALLER_VER=0.4.2; cd target; FILE=$(npm pack @deskpro/apps-installer@$INSTALLER_VER); mv $FILE apps-installer.tgz",
+    "installer": "INSTALLER_VER=0.4.5; cd target; FILE=$(npm pack @deskpro/apps-installer@$INSTALLER_VER); mv $FILE apps-installer.tgz",
     "postinstall": "npm run installer"
   },
   "repository": {
@@ -24,7 +24,7 @@
     "deskpro",
     "deskpro tool"
   ],
-  "author": "DeskPRO Ltd.",
+  "author": "Deskpro Ltd.",
   "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/deskpro/apps-dpat/issues"
