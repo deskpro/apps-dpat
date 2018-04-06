@@ -85,6 +85,11 @@ function appResources(buildManifest, projectRoot)
       from: path.resolve(projectRoot, 'src', 'main', 'docs', 'README.md'),
       to: path.join(projectRoot, destination, 'README.md'),
       force: true
+    },
+    {
+      from: path.resolve(projectRoot, 'src', 'main', 'docs', 'ADMIN_README.md'),
+      to: path.join(projectRoot, destination, 'docs', 'ADMIN_README.md'),
+      force: true
     }
   ];
 
