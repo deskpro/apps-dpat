@@ -6,7 +6,7 @@ This project is following [Semantic Versioning](http://semver.org)
 
 ## Added
 
- - show app readme in app admin
+ - package docs from src/main/docs in the application bundle
 
 ## [0.10.4][] - 2018-04-03
 
