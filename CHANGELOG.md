@@ -4,6 +4,8 @@ This project is following [Semantic Versioning](http://semver.org)
 
 ## [Unreleased][]
 
+## [0.10.5][] - 2018-04-23
+
 ## Added
 
  - package docs from src/main/docs in the application bundle
@@ -296,7 +298,8 @@ This project is following [Semantic Versioning](http://semver.org)
 
 * Initial public release
 
-[Unreleased]: https://github.com/Deskpro/deskproapps-dpat/compare/v0.10.4...HEAD
+[Unreleased]: https://github.com/Deskpro/deskproapps-dpat/compare/v0.10.5...HEAD
+[0.10.5]: https://github.com/Deskpro/deskproapps-dpat/compare/v0.10.4...v0.10.5
 [0.10.4]: https://github.com/Deskpro/deskproapps-dpat/compare/v0.10.3...v0.10.4
 [0.10.3]: https://github.com/Deskpro/deskproapps-dpat/compare/v0.10.2...v0.10.3
 [0.10.2]: https://github.com/Deskpro/deskproapps-dpat/compare/v0.10.1...v0.10.2
